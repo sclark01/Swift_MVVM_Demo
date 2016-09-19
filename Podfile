@@ -15,6 +15,8 @@ def networking_pods
   pod 'Alamofire'
 end
 
+pod 'ReactiveCocoa', '~> 4.2'
+
 pod 'SwiftyJSON'
 
 target 'MVVM_Demo' do
@@ -22,5 +24,6 @@ target 'MVVM_Demo' do
 end
 
 target 'MVVM_DemoTests' do
+  networking_pods
   testing_pods
 end
