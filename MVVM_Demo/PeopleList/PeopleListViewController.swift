@@ -24,7 +24,7 @@ class PeopleListViewController: UIViewController{
 
     func goToPersonDetailsView(withID id: Int) {
         let targetStoryboard = UIStoryboard(name: "PersonDetails", bundle: nil)
-        let viewController = targetStoryboard.instantiateInitialViewController() as! PersonDetailsViewController
+        guard let viewController = targetStoryboard.instantiateInitialViewController() as? PersonDetailsViewController else { return }
         viewController.modalPresentationStyle = .OverCurrentContext
         viewController.modalTransitionStyle =  .CrossDissolve
         viewController.personID = id
