@@ -1,14 +1,14 @@
 import Foundation
-import ReactiveCocoa
+import ReactiveSwift
 
-struct PersonDetailsViewModel {
+class PersonDetailsViewModel {
     let person = MutableProperty<Person?>(nil)
     let peopleService: PeopleServiceType
 
     init(withID id: Int, peopleService: PeopleServiceType) {
         self.peopleService = peopleService
         peopleService.getPersonByID(withID: id) { person in
-            self.person.value = person
+            self.person.value = person;
         }
     }
 
@@ -26,7 +26,7 @@ struct PersonDetailsViewModel {
         return unwrapPerson().phone ?? ""
     }
 
-    private func unwrapPerson() -> Person {
+    fileprivate func unwrapPerson() -> Person {
         return person.value ?? Person(id: 0, name: "")
     }
 

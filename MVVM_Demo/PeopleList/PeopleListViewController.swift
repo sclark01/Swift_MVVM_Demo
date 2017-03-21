@@ -2,6 +2,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import ReactiveCocoa
+import ReactiveSwift
 
 class PeopleListViewController: UIViewController{
     let peopleSignal = MutableProperty<[Person]>([])
@@ -17,7 +18,7 @@ class PeopleListViewController: UIViewController{
         viewModel = PeopleListViewModel(peopleService: PeopleService())
         peopleSignal <~ viewModel.people.producer
 
-        peopleSignal.producer.startWithNext { _ in
+        let _ = peopleSignal.producer.startWithValues { _ in
             self.tableView.reloadData()
         }
     }
@@ -25,8 +26,8 @@ class PeopleListViewController: UIViewController{
     func goToPersonDetailsView(withID id: Int) {
         let targetStoryboard = UIStoryboard(name: "PersonDetails", bundle: nil)
         guard let viewController = targetStoryboard.instantiateInitialViewController() as? PersonDetailsViewController else { return }
-        viewController.modalPresentationStyle = .OverCurrentContext
-        viewController.modalTransitionStyle =  .CrossDissolve
+        viewController.modalPresentationStyle = .overCurrentContext
+        viewController.modalTransitionStyle =  .crossDissolve
         viewController.personID = id
         pushViewControllerOntoNavigationController(withViewController: viewController, animated: true)
     }
@@ -39,26 +40,26 @@ class PeopleListViewController: UIViewController{
 
 extension PeopleListViewController : UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfPeople
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let personForIndex = viewModel.getPersonAtIndex(indexPath.row)
         let cellIdentifier =  "cell"
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) ?? UITableViewCell(style: .Subtitle, reuseIdentifier: cellIdentifier)
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
 
         cell.textLabel?.text = personForIndex.name
         cell.detailTextLabel?.text = personForIndex.phone ?? ""
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let personID = viewModel.getPersonAtIndex(indexPath.row).id
         goToPersonDetailsView(withID: personID)
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 }

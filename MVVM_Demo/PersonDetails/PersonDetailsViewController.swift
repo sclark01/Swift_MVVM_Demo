@@ -1,5 +1,6 @@
 import UIKit
 import ReactiveCocoa
+import ReactiveSwift
 
 class PersonDetailsViewController : UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
@@ -22,7 +23,7 @@ class PersonDetailsViewController : UIViewController {
         viewModel = PersonDetailsViewModel(withID: id, peopleService: peopleService)
         personSignal <~ viewModel.person.producer
 
-        personSignal.producer.startWithNext {[weak self] _ in
+        let _ = personSignal.producer.startWithValues {[weak self] _ in
             self?.updateLabels()
         }
     }
