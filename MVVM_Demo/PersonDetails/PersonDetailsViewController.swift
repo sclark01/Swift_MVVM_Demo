@@ -9,15 +9,16 @@ class PersonDetailsViewController : UIViewController {
 
     var viewModel: PersonDetailsViewModel!
     let personSignal = MutableProperty<Person?>(nil)
-    var peopleService:PeopleServiceType = PeopleService()
+    var peopleService: PeopleServiceType = PeopleService()
 
     var personID: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Details"
         setUpViewModel()
+        self.title = viewModel?.pageTitle
     }
+
     func setUpViewModel() {
         guard let id = personID else { return }
         viewModel = PersonDetailsViewModel(withID: id, peopleService: peopleService)

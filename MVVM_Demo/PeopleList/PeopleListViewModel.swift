@@ -18,6 +18,10 @@ class PeopleListViewModel {
         return people.value.count
     }
 
+    var pageTitle: String {
+        return "Contacts"
+    }
+
     func getPersonAtIndex(_ index: Int) -> Person {
         return people.value[index]
     }

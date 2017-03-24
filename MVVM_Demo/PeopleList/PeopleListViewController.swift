@@ -13,9 +13,10 @@ class PeopleListViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Contacts"
-        
+
         viewModel = PeopleListViewModel(peopleService: PeopleService())
+
+        self.title = viewModel.pageTitle
         peopleSignal <~ viewModel.people.producer
 
         let _ = peopleSignal.producer.startWithValues { _ in
@@ -56,6 +57,7 @@ extension PeopleListViewController : UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let personID = viewModel.getPersonAtIndex(indexPath.row).id
+        tableView.deselectRow(at: indexPath, animated: true)
         goToPersonDetailsView(withID: personID)
     }
 

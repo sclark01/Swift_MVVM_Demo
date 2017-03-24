@@ -26,6 +26,10 @@ class PersonDetailsViewModel {
         return unwrapPerson().phone ?? ""
     }
 
+    var pageTitle: String {
+        return "Details"
+    }
+
     fileprivate func unwrapPerson() -> Person {
         return person.value ?? Person(id: 0, name: "")
     }
